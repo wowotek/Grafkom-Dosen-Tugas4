@@ -5,14 +5,19 @@
 #include <GL/glut.h>
 #include <GL/freeglut.h>
 
+#include "line.hh"
+
 #define WIDTH 640
 #define HEIGHT 480
 
 void
 MouseEvent(int button, int state, int posx, int posy)
 {
-    std::cout << "Button : " << button << " State : " << state << " pos (" << posx << " " << posy << ")" << std::endl;
-    fflush(stdout);
+    if(state == GLUT_UP){
+        addPoints(posx, posy);
+        printPoints();
+        printLines();
+    }
 }
 
 void

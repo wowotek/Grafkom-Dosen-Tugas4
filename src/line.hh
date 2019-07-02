@@ -4,16 +4,23 @@
 #include <stdint.h>
 #include <vector>
 
-std::vector<Line> lines;
-std::vector<Point> points;
-
-typedef struct Point_t Point;
-typedef struct Line_t Line;
+typedef struct Point_t {
+    float posx;
+    float posy;
+} Point;
+typedef struct Line_t {
+    Point pos1;
+    Point pos2;
+} Line;
 
 void addPoints(float, float);
-void eraseAllPoint();
+void clearPoints();
+void printPoints();
+void drawPoints();
 
 void addLines();
-void deleteLines();
+void deleteLines(int);
+void printLines();
+void drawLines();
 
 #endif

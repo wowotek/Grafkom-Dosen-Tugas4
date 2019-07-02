@@ -1,28 +1,41 @@
 #include "line.hh"
 
-typedef struct Point_t 
-{
-    float posx;
-    float posy;
-} Point;
+#include <iostream>
 
-typedef struct Line_t 
-{
-    Point pos1;
-    Point pos2;
-} Line;
+std::vector<Line_t> lines;
+std::vector<Point_t> points;
 
 void 
 addPoints(float posx, float posy)
 {
+    if(points.size() >= 2){
+        addLines();
+    }
     points.push_back(Point{posx, posy});
 }
 
 void
-eraseAllPoint()
+clearPoints()
 {
-    points = {};
+    points.clear();
 }
+
+void
+printPoints()
+{
+    for(int i=0; i<points.size(); i++){
+        std::cout << "(" << points.at(i).posx << " " << points.at(i).posy << ")";
+    }
+
+    std::cout << std::endl;
+}
+
+void
+drawPoints()
+{
+    
+}
+
 
 void
 addLines()
@@ -32,11 +45,27 @@ addLines()
         points.at(1)
     });
 
-    eraseAllPoint();
+    clearPoints();
 }
 
 void
-deleteLines()
+deleteLines(int index)
+{
+    lines.erase(lines.begin() + index);
+}
+
+void
+printLines()
+{
+    for(int i=0; i<lines.size(); i++){
+        std::cout << "((" << lines.at(i).pos1.posx << " " << lines.at(i).pos1.posy << ") (" << lines.at(i).pos2.posx << " " << lines.at(i).pos2.posy << ")), ";
+    }
+
+    std::cout << std::endl;
+}
+
+void
+drawLines()
 {
 
 }
