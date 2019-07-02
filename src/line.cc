@@ -12,10 +12,12 @@ std::vector<Point_t> points;
 void 
 AddPoints(float posx, float posy)
 {
-    if(points.size() >= 2){
-        AddLines();
-    }
     points.push_back(Point{posx, posy});
+
+    if(points.size() > 1){
+        AddLines();
+        ClearPoints();
+    }
 }
 
 void
@@ -27,12 +29,15 @@ ClearPoints()
 void
 AddLines()
 {
-    lines.push_back(Line{
-        points.at(0),
-        points.at(1)
-    });
+    if(points.size() < 2) return;
+    else {
+        lines.push_back(Line{
+            points.at(0),
+            points.at(1)
+        });
+    }
 
-    ClearPoints();
+    DrawLines();
 }
 
 void
@@ -45,7 +50,6 @@ void
 PrettyPrint()
 {
     std::cout << "Points: " << (points.size() + (lines.size() * 2)) << " | Lines: " << lines.size();
-    std::cout << "LastAddedMouseCoordinate: (" << points.at(points.size()-1).posx << " " <<  points.at(points.size()-1).posy << ")";
     std::cout << "           \r";
     fflush(stdout);
 }
@@ -53,11 +57,12 @@ PrettyPrint()
 void
 DrawPoints()
 {
+    glPointSize(10);
     glColor3f(255, 0, 0);
     glBegin(GL_POINTS);
     for(uint8_t i=0; i<points.size(); i++){
         float x = (float) points.at(i).posx;
-        float y = (float) points.at(i).posx;
+        float y = (float) points.at(i).posy;
         glVertex2f((float)(x), (float)(y));
     }
     glEnd();
@@ -66,5 +71,30 @@ DrawPoints()
 void
 DrawLines()
 {
+    glPointSize(10);
+    glColor3f(255, 255, 255);
+    glBegin(GL_LINES);
+    for(uint8_t i=0; i<lines.size(); i++){
+        float x1 = (float) lines.at(i).pos1.posx;
+        float y1 = (float) lines.at(i).pos1.posy;
+        float x2 = (float) lines.at(i).pos2.posx;
+        float y2 = (float) lines.at(i).pos2.posy;
+        
+        glVertex2f((float)(x1), (float)(y1));
+        glVertex2f((float)(x2), (float)(y2));
+    }
+    glEnd();
 
+    glColor3f(255, 0, 0);
+    glBegin(GL_POINTS);
+    for(uint8_t i=0; i<lines.size(); i++){
+        float x1 = (float) lines.at(i).pos1.posx;
+        float y1 = (float) lines.at(i).pos1.posy;
+        float x2 = (float) lines.at(i).pos2.posx;
+        float y2 = (float) lines.at(i).pos2.posy;
+
+        glVertex2f((float)(x1), (float)(y1));
+        glVertex2f((float)(x2), (float)(y2));
+    }
+    glEnd();
 }
