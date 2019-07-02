@@ -1,71 +1,70 @@
 #include "line.hh"
 
 #include <iostream>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
+#include <GL/freeglut.h>
 
 std::vector<Line_t> lines;
 std::vector<Point_t> points;
 
 void 
-addPoints(float posx, float posy)
+AddPoints(float posx, float posy)
 {
     if(points.size() >= 2){
-        addLines();
+        AddLines();
     }
     points.push_back(Point{posx, posy});
 }
 
 void
-clearPoints()
+ClearPoints()
 {
     points.clear();
 }
 
 void
-printPoints()
-{
-    for(int i=0; i<points.size(); i++){
-        std::cout << "(" << points.at(i).posx << " " << points.at(i).posy << ")";
-    }
-
-    std::cout << std::endl;
-}
-
-void
-drawPoints()
-{
-    
-}
-
-
-void
-addLines()
+AddLines()
 {
     lines.push_back(Line{
         points.at(0),
         points.at(1)
     });
 
-    clearPoints();
+    ClearPoints();
 }
 
 void
-deleteLines(int index)
+DeleteLines(int index)
 {
     lines.erase(lines.begin() + index);
 }
 
 void
-printLines()
+PrettyPrint()
 {
-    for(int i=0; i<lines.size(); i++){
-        std::cout << "((" << lines.at(i).pos1.posx << " " << lines.at(i).pos1.posy << ") (" << lines.at(i).pos2.posx << " " << lines.at(i).pos2.posy << ")), ";
-    }
-
-    std::cout << std::endl;
+    std::cout << "Points: " << (points.size() + (lines.size() * 2)) << " | Lines: " << lines.size();
+    std::cout << "LastAddedMouseCoordinate: (" << points.at(points.size()-1).posx << " " <<  points.at(points.size()-1).posy << ")";
+    std::cout << "           \r";
+    fflush(stdout);
 }
 
 void
-drawLines()
+DrawPoints()
+{
+    glColor3f(255, 0, 0);
+    glBegin(GL_POINTS);
+    for(uint8_t i=0; i<points.size(); i++){
+        float x = (float) points.at(i).posx;
+        float y = (float) points.at(i).posx;
+        glVertex2f((float)(x), (float)(y));
+    }
+    glEnd();
+}
+
+void
+DrawLines()
 {
 
 }

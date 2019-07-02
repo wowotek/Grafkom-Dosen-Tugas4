@@ -8,19 +8,20 @@ typedef struct Point_t {
     float posx;
     float posy;
 } Point;
+
 typedef struct Line_t {
     Point pos1;
     Point pos2;
 } Line;
 
-void addPoints(float, float);
-void clearPoints();
-void printPoints();
-void drawPoints();
+void AddPoints(float, float);
+void ClearPoints();
+void DrawPoints();
 
-void addLines();
-void deleteLines(int);
-void printLines();
-void drawLines();
+void AddLines();
+void DeleteLines(int);
+void DrawLines();
+
+void PrettyPrint();
 
 #endif

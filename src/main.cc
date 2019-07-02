@@ -11,19 +11,11 @@
 #define HEIGHT 480
 
 void
-MouseEvent(int button, int state, int posx, int posy)
-{
-    if(state == GLUT_UP){
-        addPoints(posx, posy);
-        printPoints();
-        printLines();
-    }
-}
-
-void
 RenderDisplay(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
+
+    DrawPoints();
 
     glutSwapBuffers();
 }
@@ -36,6 +28,17 @@ UpdateScreen(GLint time)
     glutTimerFunc(time, UpdateScreen, time);
 }
 
+void
+MouseEvent(int button, int state, int posx, int posy)
+{
+    if(state == GLUT_UP){
+        AddPoints(posx, HEIGHT - posy);
+
+        PrettyPrint();
+        RenderDisplay();
+        glutPostRedisplay();
+    }
+}
 void
 Init(void)
 {
