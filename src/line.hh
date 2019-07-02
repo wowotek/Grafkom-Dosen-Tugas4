@@ -20,6 +20,7 @@ void DrawPoints();
 
 void AddLines();
 void DeleteLines(int);
+void ClearLines();
 void DrawLines();
 
 void PrettyPrint();

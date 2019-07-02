@@ -53,11 +53,25 @@ MouseEvent(int button, int state, int posx, int posy)
 }
 
 void
+KeyboardEvent(unsigned char key, int x, int y)
+{
+    if(key ==114){
+        ClearPoints();
+        ClearLines();
+    }
+}
+
+void
 Init(void)
 {
+    glutSetOption(GLUT_MULTISAMPLE, 16);
+
+    glEnable(GL_MULTISAMPLE);
+    glHint(GL_MULTISAMPLE_FILTER_HINT_NV, GL_NICEST);
+
     glutDisplayFunc(RenderDisplay);
     glutMouseFunc(MouseEvent);
-
+    glutKeyboardFunc(KeyboardEvent);
     UpdateScreen(1000/120);
     gluOrtho2D(0, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT), 0);
 }
@@ -70,6 +84,7 @@ main(int argc, char ** argv)
     glutInitWindowSize(WIDTH, HEIGHT);
     glutInitWindowPosition(2280, 480);
     glutCreateWindow("TUGAS 4 GRAFKOM");
+
     Init();
 
     glutMainLoop();

@@ -47,6 +47,12 @@ DeleteLines(int index)
 }
 
 void
+ClearLines()
+{
+    lines.clear();
+}
+
+void
 PrettyPrint()
 {
     std::cout << "Points: " << (points.size() + (lines.size() * 2)) << " | Lines: " << lines.size();
