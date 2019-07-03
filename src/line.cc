@@ -78,7 +78,7 @@ void
 DrawLines()
 {
     glPointSize(10);
-    glColor3f(255, 255, 255);
+    glColor3f(0, 0, 0);
     glBegin(GL_LINES);
     for(uint8_t i=0; i<lines.size(); i++){
         float x1 = (float) lines.at(i).pos1.posx;
@@ -103,4 +103,30 @@ DrawLines()
         glVertex2f((float)(x2), (float)(y2));
     }
     glEnd();
+}
+
+void
+IntersectionCalculator()
+{
+    if(lines.size>1){
+        for(uint8_t i=1; i<lines.size(); i++){
+            Line linea = lines.at(i-1);
+            float x1a = linea.pos1.posx;
+            float y1a = linea.pos1.posy;
+            float x2a = linea.pos2.posx;
+            float y2a = linea.pos2.posy;
+
+            float ma = (y2a - y1a) / (x2a - x1a);
+            float ca = y1a - (ma*x1a);
+
+            Line lineb = lines.at(i);
+            float x1b = linea.pos1.posx;
+            float y1b = linea.pos1.posy;
+            float x2b = linea.pos2.posx;
+            float y2b = linea.pos2.posy;
+
+            float mb = (y2b - y1b) / (x2a - x1b);
+            float cb = y1b - (mb*x1b);
+        }
+    }
 }

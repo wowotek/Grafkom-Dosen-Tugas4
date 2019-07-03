@@ -24,5 +24,6 @@ void ClearLines();
 void DrawLines();
 
 void PrettyPrint();
+void IntersectionCalculator();
 
 #endif
