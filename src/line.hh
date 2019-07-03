@@ -24,6 +24,10 @@ void ClearLines();
 void DrawLines();
 
 void PrettyPrint();
-void IntersectionCalculator();
+
+void ClearIntesections();
+Point IntersectionCalculator(Line, Line);
+void CalculateIntersections();
+void DrawIntersection();
 
 #endif

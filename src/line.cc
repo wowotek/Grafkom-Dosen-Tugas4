@@ -1,6 +1,7 @@
 #include "line.hh"
 
 #include <iostream>
+#include <math.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -8,6 +9,9 @@
 
 std::vector<Line_t> lines;
 std::vector<Point_t> points;
+std::vector<Point_t> intersections;
+
+bool drawPolygons = true;
 
 void 
 AddPoints(float posx, float posy)
@@ -36,8 +40,6 @@ AddLines()
             points.at(1)
         });
     }
-
-    DrawLines();
 }
 
 void
@@ -66,7 +68,7 @@ DrawPoints()
     glPointSize(10);
     glColor3f(255, 0, 0);
     glBegin(GL_POINTS);
-    for(uint8_t i=0; i<points.size(); i++){
+    for(int i=0; i<points.size(); i++){
         float x = (float) points.at(i).posx;
         float y = (float) points.at(i).posy;
         glVertex2f((float)(x), (float)(y));
@@ -80,7 +82,7 @@ DrawLines()
     glPointSize(10);
     glColor3f(0, 0, 0);
     glBegin(GL_LINES);
-    for(uint8_t i=0; i<lines.size(); i++){
+    for(int i=0; i<lines.size(); i++){
         float x1 = (float) lines.at(i).pos1.posx;
         float y1 = (float) lines.at(i).pos1.posy;
         float x2 = (float) lines.at(i).pos2.posx;
@@ -93,7 +95,7 @@ DrawLines()
 
     glColor3f(255, 0, 0);
     glBegin(GL_POINTS);
-    for(uint8_t i=0; i<lines.size(); i++){
+    for(int i=0; i<lines.size(); i++){
         float x1 = (float) lines.at(i).pos1.posx;
         float y1 = (float) lines.at(i).pos1.posy;
         float x2 = (float) lines.at(i).pos2.posx;
@@ -105,28 +107,66 @@ DrawLines()
     glEnd();
 }
 
-void
-IntersectionCalculator()
+Point
+IntersectionCalculator(Line line1, Line line2)
 {
-    if(lines.size>1){
-        for(uint8_t i=1; i<lines.size(); i++){
-            Line linea = lines.at(i-1);
-            float x1a = linea.pos1.posx;
-            float y1a = linea.pos1.posy;
-            float x2a = linea.pos2.posx;
-            float y2a = linea.pos2.posy;
+    // Line A
+    float x1a = line1.pos1.posx;
+    float y1a = line1.pos1.posy;
+    float x1b = line1.pos2.posx;
+    float y1b = line1.pos2.posy;
 
-            float ma = (y2a - y1a) / (x2a - x1a);
-            float ca = y1a - (ma*x1a);
+    float ma = (y1b-y1a) / (x1b-x1a);
+    float ca = y1a - (ma * x1a);
+    float da = sqrt(((x1b - x1a)*(x1b - x1a)) + ((y1b - y1a)*(y1b - y1a)));
 
-            Line lineb = lines.at(i);
-            float x1b = linea.pos1.posx;
-            float y1b = linea.pos1.posy;
-            float x2b = linea.pos2.posx;
-            float y2b = linea.pos2.posy;
+    // Line B
+    float x2a = line2.pos1.posx;
+    float y2a = line2.pos1.posy;
+    float x2b = line2.pos2.posx;
+    float y2b = line2.pos2.posy;
 
-            float mb = (y2b - y1b) / (x2a - x1b);
-            float cb = y1b - (mb*x1b);
+    float mb = (y2b-y2a) / (x2b-x2a);
+    float cb = y2a - (mb * x2a);
+    float db = sqrt(((x2b - x2a)*(x2b - x2a)) + ((y2b - y2a)*(y2b - y2a)));
+
+    // Output Intersection
+    float xo = (cb - ca) / (ma - mb);
+    float yo = (ma * xo) + ca;
+
+    return Point{xo, yo};
+}
+
+void
+CalculateIntersections()
+{
+    if(lines.size() < 2) return;
+
+    glPointSize(5);
+    for(int i=0; i<lines.size(); i++){
+        for(int j=0; j<lines.size(); j++){
+            if(j == i) break;
+            
+            intersections.push_back(IntersectionCalculator(lines.at(i), lines.at(j)));
         }
     }
+}
+
+void 
+DrawIntersection()
+{
+    CalculateIntersections();
+
+    glColor4ub(0, 0, 1, 15);
+    glBegin(GL_POLYGON);
+    for(int i=0; i<intersections.size(); i++){
+        glVertex2f(intersections[i].posx, intersections[i].posy);
+    }
+    glEnd();
+}
+
+void
+ClearIntesections()
+{
+    intersections.clear();
 }

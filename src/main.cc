@@ -18,12 +18,12 @@ const char Red[] = "press <R> to reset the Screen";
 void
 RenderDisplay(void)
 {
-    glMatrixMode(GL_MODELVIEW);
+    glClearColor(1, 1, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(1, 1, 1, 1);
     
     DrawLines();
     DrawPoints();
+    DrawIntersection();
 
     glColor3f(1, 0, 0);
     glRasterPos2f(0, 10);
@@ -43,7 +43,6 @@ RenderDisplay(void)
 void
 UpdateScreen(GLint time)
 {
-    RenderDisplay();
     glutPostRedisplay();
     glutTimerFunc(time, UpdateScreen, time);
 }
@@ -53,10 +52,7 @@ MouseEvent(int button, int state, int posx, int posy)
 {
     if(state == GLUT_UP){
         AddPoints(posx, posy);
-
         PrettyPrint();
-        RenderDisplay();
-        glutPostRedisplay();
     }
 }
 
@@ -66,15 +62,18 @@ KeyboardEvent(unsigned char key, int posx, int posy)
     if((int)(key)==114){
         ClearPoints();
         ClearLines();
+        ClearIntesections();
+
         PrettyPrint();
-        RenderDisplay();
-        glutPostRedisplay();
     }
 }
 
 void
 Init(void)
 {
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
     glutSetOption(GLUT_MULTISAMPLE, 16);
 
     glEnable(GL_MULTISAMPLE);
@@ -91,7 +90,7 @@ int
 main(int argc, char ** argv)
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_MULTISAMPLE);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
     glutInitWindowSize(WIDTH, HEIGHT);
     glutInitWindowPosition(2280, 480);
     glutCreateWindow("TUGAS 4 GRAFKOM");
