@@ -4,15 +4,7 @@
 #include <stdint.h>
 #include <vector>
 
-typedef struct Point_t {
-    float posx;
-    float posy;
-} Point;
-
-typedef struct Line_t {
-    Point pos1;
-    Point pos2;
-} Line;
+#include "common.hh"
 
 void AddPoints(float, float);
 void ClearPoints();
@@ -26,8 +18,9 @@ void DrawLines();
 void PrettyPrint();
 
 void ClearIntesections();
-Point IntersectionCalculator(Line, Line);
+coord2D IntersectionCalculator(Line, Line);
 void CalculateIntersections();
+void SwitchDrawPolygons();
 void DrawIntersection();
 
 #endif
