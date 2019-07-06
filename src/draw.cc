@@ -1,26 +1,39 @@
 #include "draw.hh"
 
-bool drawPolygons = true;
-bool drawIntersectionPoints = true;
+#include "point.hh"
+#include "line.hh"
+#include "intersection.hh"
+
 bool drawLinePoints = true;
 bool drawLine = true;
+bool drawIntersectionPoints = true;
+bool drawPolygons = true;
 
 void
-SwitchDrawPolygons()
-    { drawPolygons = !drawPolygons; }
+SwitchDrawPolygons() { drawPolygons = !drawPolygons; }
 
 void
-SwitchDrawIntersectionPoints() 
-    { drawIntersectionPoints = !drawIntersectionPoints; }
+SwitchDrawIntersectionPoints()  { drawIntersectionPoints = !drawIntersectionPoints; }
 
 void
-SwitchDrawLinePoints()
+SwitchDrawLinePoints() { drawLinePoints = !drawLinePoints; }
+
+void
+SwitchDrawLine() { drawLine = !drawLine; }
+
+void
+updateCallback()
 {
-    drawLinePoints = !drawLinePoints;
+
 }
 
-void
-SwitchDrawLine()
+void 
+DrawAll()
 {
-    drawLine = !drawLine;
+    if(drawLinePoints) DrawLinesPoints();
+    if(drawLine) DrawLines();
+    if(drawIntersectionPoints) DrawIntersectionPoints();
+    if(drawPolygons) DrawIntersectionPolygons();
+
+    DrawPoints();
 }

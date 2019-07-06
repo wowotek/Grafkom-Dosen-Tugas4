@@ -15,6 +15,12 @@ ClearPoints()
     points.clear();
 }
 
+std::vector<coord2D>
+GetPoints()
+{
+    return points;
+}
+
 void 
 AddPoints(float posx, float posy)
 {

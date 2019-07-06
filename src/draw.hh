@@ -6,4 +6,8 @@ void SwitchDrawIntersectionPoints();
 void SwitchDrawLinePoints();
 void SwitchDrawLine();
 
+void updateCallback()
+void DrawAll();
+
+
 #endif
