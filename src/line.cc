@@ -12,6 +12,33 @@ std::vector<coord2D> points;
 std::vector<coord2D> intersections;
 
 bool drawPolygons = true;
+bool drawIntersectionPoints = true;
+bool drawLinePoints = true;
+bool drawLine = true;
+
+void
+SwitchDrawPolygons()
+{
+    drawPolygons = !drawPolygons;
+}
+
+void
+SwitchDrawIntersectionPoints()
+{
+    drawIntersectionPoints = !drawIntersectionPoints;
+}
+
+void
+SwitchDrawLinePoints()
+{
+    drawLinePoints = !drawLinePoints;
+}
+
+void
+SwitchDrawLine()
+{
+    drawLine = !drawLine;
+}
 
 void 
 AddPoints(float posx, float posy)
@@ -80,32 +107,36 @@ DrawPoints()
 void
 DrawLines()
 {
-    glPointSize(10);
-    glColor3f(0, 0, 0);
-    glBegin(GL_LINES);
-    for(int i=0; i<lines.size(); i++){
-        float x1 = (float) lines.at(i).pos1.x;
-        float y1 = (float) lines.at(i).pos1.y;
-        float x2 = (float) lines.at(i).pos2.x;
-        float y2 = (float) lines.at(i).pos2.y;
-        
-        glVertex2f((float)(x1), (float)(y1));
-        glVertex2f((float)(x2), (float)(y2));
+    if(drawLine){
+        glPointSize(10);
+        glColor3f(0, 0, 0);
+        glBegin(GL_LINES);
+        for(int i=0; i<lines.size(); i++){
+            float x1 = (float) lines.at(i).pos1.x;
+            float y1 = (float) lines.at(i).pos1.y;
+            float x2 = (float) lines.at(i).pos2.x;
+            float y2 = (float) lines.at(i).pos2.y;
+            
+            glVertex2f((float)(x1), (float)(y1));
+            glVertex2f((float)(x2), (float)(y2));
+        }
+        glEnd();
     }
-    glEnd();
 
-    glColor3f(255, 0, 0);
-    glBegin(GL_POINTS);
-    for(int i=0; i<lines.size(); i++){
-        float x1 = (float) lines.at(i).pos1.x;
-        float y1 = (float) lines.at(i).pos1.y;
-        float x2 = (float) lines.at(i).pos2.x;
-        float y2 = (float) lines.at(i).pos2.y;
+    if(drawLinePoints){
+        glColor3f(255, 0, 0);
+        glBegin(GL_POINTS);
+        for(int i=0; i<lines.size(); i++){
+            float x1 = (float) lines.at(i).pos1.x;
+            float y1 = (float) lines.at(i).pos1.y;
+            float x2 = (float) lines.at(i).pos2.x;
+            float y2 = (float) lines.at(i).pos2.y;
 
-        glVertex2f((float)(x1), (float)(y1));
-        glVertex2f((float)(x2), (float)(y2));
+            glVertex2f((float)(x1), (float)(y1));
+            glVertex2f((float)(x2), (float)(y2));
+        }
+        glEnd();
     }
-    glEnd();
 }
 
 coord2D
@@ -135,6 +166,7 @@ IntersectionCalculator(Line line1, Line line2)
     float xo = (cb - ca) / (ma - mb);
     float yo = (ma * xo) + ca;
 
+
     return coord2D{xo, yo};
 }
 
@@ -143,37 +175,44 @@ CalculateIntersections()
 {
     if(lines.size() < 2) return;
 
-    glPointSize(5);
+    ClearIntesections();
+    
     for(int i=0; i<lines.size(); i++){
         for(int j=0; j<lines.size(); j++){
             if(j == i) break;
+            coord2D ip = IntersectionCalculator(lines.at(i), lines.at(j));
+
+            Line linesi = lines.at(i);
+            Line linesj = lines.at(j);
+
+            if( ip.x > glutGet(GLUT_WINDOW_WIDTH) || ip.y > glutGet(GLUT_WINDOW_HEIGHT) ||
+                ip.x < 0 || ip.y < 0 || ip.x == NAN || ip.y == NAN || 
+                ip.x == INFINITY || ip.y == INFINITY) continue;
             
-            intersections.push_back(IntersectionCalculator(lines.at(i), lines.at(j)));
+            intersections.push_back(coord2D{ip.x, ip.y});
         }
     }
 }
 
-void
-SwitchDrawPolygons()
+void 
+DrawIntersectionPoints()
 {
-    drawPolygons = !drawPolygons;
+    if(drawIntersectionPoints){
+        glPointSize(10);
+        glColor4f(0, 1, 0, 1);
+        glBegin(GL_POINTS);
+        for(int i=0; i<intersections.size(); i++){
+            glVertex2f(intersections[i].x, intersections[i].y);
+        }
+        glEnd();
+    }
 }
 
-void 
-DrawIntersection()
+void
+DrawIntersectionPolygons()
 {
-    CalculateIntersections();
-
-    glPointSize(10);
-    glColor4f(0, 1, 0, 1);
-    glBegin(GL_POINTS);
-    for(int i=0; i<intersections.size(); i++){
-        glVertex2f(intersections[i].x, intersections[i].y);
-    }
-    glEnd();
-
     if(drawPolygons){
-        glColor4f(0, 1, 1, 0.1);
+        glColor4f(0, 1, 1, 0.255);
         glBegin(GL_POLYGON);
         for(int i=0; i<intersections.size(); i++){
             glVertex2f(intersections[i].x, intersections[i].y);

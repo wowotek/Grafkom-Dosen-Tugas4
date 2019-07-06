@@ -6,6 +6,11 @@
 
 #include "common.hh"
 
+void SwitchDrawPolygons();
+void SwitchDrawIntersectionPoints();
+void SwitchDrawLinePoints();
+void SwitchDrawLine();
+
 void AddPoints(float, float);
 void ClearPoints();
 void DrawPoints();
@@ -20,7 +25,7 @@ void PrettyPrint();
 void ClearIntesections();
 coord2D IntersectionCalculator(Line, Line);
 void CalculateIntersections();
-void SwitchDrawPolygons();
-void DrawIntersection();
+void DrawIntersectionPoints();
+void DrawIntersectionPolygons();
 
 #endif

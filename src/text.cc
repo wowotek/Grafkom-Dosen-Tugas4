@@ -60,10 +60,10 @@ DrawScreenText()
         ScreenText st = screentexts.at(i);
         const char * text = st.text.c_str();
 
-        glRasterPos2f(unpack2(st.coordinate));
         glColor3f(unpack3(st.color));
+        glRasterPos2f(unpack2(st.coordinate));
         for(uint8_t j=0; j<strlen(text); j++){
-            glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[i]);
+            glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[j]);
         }
     }
 }

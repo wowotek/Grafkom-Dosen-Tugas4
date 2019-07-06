@@ -7,6 +7,8 @@
 #include <GL/freeglut.h>
 
 #include "line.hh"
+#include "text.hh"
+
 
 float WIDTH = 640;
 float HEIGHT = 640;
@@ -16,11 +18,14 @@ void
 RenderDisplay(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(1, 1, 1, 1);
+    glClearColor(0.9, 0.9, 0.9, 1);
     
+    DrawIntersectionPolygons();
     DrawLines();
     DrawPoints();
-    DrawIntersection();
+    DrawIntersectionPoints();
+
+    DrawScreenText();
     
     glutSwapBuffers();
 }
@@ -28,6 +33,8 @@ RenderDisplay(void)
 void
 UpdateScreen(GLint time)
 {
+    CalculateIntersections();
+
     glutPostRedisplay();
     glutTimerFunc(time, UpdateScreen, time);
 }
@@ -44,14 +51,26 @@ MouseEvent(int button, int state, int posx, int posy)
 void
 KeyboardEvent(unsigned char key, int posx, int posy)
 {
-    if((int)(key) == 114){          // R
+    if(key == 'r'){          // R
         ClearPoints();
         ClearLines();
         ClearIntesections();
     }
     
-    if ((int)(key) == 100) {
+    if (key == 'd'){
         SwitchDrawPolygons();
+    }
+
+    if (key == 'p'){
+        SwitchDrawLinePoints();
+    }
+
+    if (key == 'i'){
+        SwitchDrawIntersectionPoints();
+    }
+    
+    if (key == 'l'){
+        SwitchDrawLine();
     }
 
     PrettyPrint();
@@ -73,6 +92,21 @@ Init(void)
     glutKeyboardFunc(KeyboardEvent);
     UpdateScreen(1000/120);
     gluOrtho2D(0, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT), 0);
+
+    AddScreenText(" R ", coord2D{1, 12}, color3f{1, 0, 0});
+    AddScreenText("< > Reset Screen", coord2D{1, 12}, color3f{0, 0, 0});
+
+    AddScreenText(" D ", coord2D{1, 27}, color3f{1, 0, 0});
+    AddScreenText("< > Draw Polygon", coord2D{1, 27}, color3f{0, 0, 0});
+
+    AddScreenText(" P ", coord2D{1, 42}, color3f{1, 0, 0});
+    AddScreenText("< > Draw Line Points", coord2D{1, 42}, color3f{0, 0, 0});
+
+    AddScreenText(" I ", coord2D{1, 57}, color3f{1, 0, 0});
+    AddScreenText("< > Draw Intesection Points", coord2D{1, 57}, color3f{0, 0, 0});
+
+    AddScreenText(" L ", coord2D{1, 72}, color3f{1, 0, 0});
+    AddScreenText("< > Draw Line", coord2D{1, 72}, color3f{0, 0, 0});
 }
 
 int 
