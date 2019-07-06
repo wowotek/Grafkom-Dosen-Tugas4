@@ -19,9 +19,5 @@ void RemoveScreenText(uint8_t index);
 void ClearScreenText();
 
 void DrawScreenText();
-// "< > to reset the Screen"
-// "< > to draw polygon"
-// "< > to draw points"
-// "< > to draw line"
 
 #endif

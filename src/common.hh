@@ -14,9 +14,9 @@ struct vec2{
     T x, y;
 };
 
-
 typedef vec3<float> vec3f;
 typedef vec3f color3f;
+
 typedef vec2<float> vec2f;
 typedef vec2f coord2D;
 
