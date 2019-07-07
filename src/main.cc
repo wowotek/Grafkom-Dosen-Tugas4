@@ -61,8 +61,6 @@ KeyboardEvent(unsigned char key, int posx, int posy)
     if (key == 'l'){
         SwitchDrawLine();
     }
-
-    PrettyPrint();
 }
 
 void
