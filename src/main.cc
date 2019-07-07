@@ -42,10 +42,8 @@ MouseEvent(int button, int state, int posx, int posy)
 void
 KeyboardEvent(unsigned char key, int posx, int posy)
 {
-    if(key == 'r'){          // R
-        ClearPoints();
-        ClearLines();
-        ClearIntesections();
+    if(key == 'r'){
+        ClearAll();
     }
     
     if (key == 'd'){
