@@ -3,6 +3,8 @@
 
 #include "common.hh"
 
+#include <vector>
+
 void ClearPoints();
 std::vector<coord2D> GetPoints();
 void AddPoints(float, float);

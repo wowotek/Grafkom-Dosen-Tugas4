@@ -11,6 +11,12 @@
 
 std::vector<Line_t> lines;
 
+std::vector<Line_t>
+GetLines()
+{
+    return lines;
+}
+
 void
 AddLines(coord2D ab, coord2D cd)
 {

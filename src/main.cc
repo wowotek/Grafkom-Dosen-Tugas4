@@ -6,9 +6,8 @@
 #include <GL/glut.h>
 #include <GL/freeglut.h>
 
-#include "line.hh"
+#include "draw.hh"
 #include "text.hh"
-
 
 float WIDTH = 640;
 float HEIGHT = 640;
@@ -19,13 +18,8 @@ RenderDisplay(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.9, 0.9, 0.9, 1);
-    
-    DrawIntersectionPolygons();
-    DrawLines();
-    DrawPoints();
-    DrawIntersectionPoints();
 
-    DrawScreenText();
+    DrawAll();
     
     glutSwapBuffers();
 }
@@ -33,8 +27,6 @@ RenderDisplay(void)
 void
 UpdateScreen(GLint time)
 {
-    CalculateIntersections();
-
     glutPostRedisplay();
     glutTimerFunc(time, UpdateScreen, time);
 }
@@ -43,8 +35,7 @@ void
 MouseEvent(int button, int state, int posx, int posy)
 {
     if(state == GLUT_UP){
-        AddPoints(posx, posy);
-        PrettyPrint();
+        UpdateCallback(posx, posy);
     }
 }
 

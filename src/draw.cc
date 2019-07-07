@@ -1,5 +1,6 @@
 #include "draw.hh"
 
+#include "common.hh"
 #include "point.hh"
 #include "line.hh"
 #include "intersection.hh"
@@ -10,21 +11,36 @@ bool drawIntersectionPoints = true;
 bool drawPolygons = true;
 
 void
-SwitchDrawPolygons() { drawPolygons = !drawPolygons; }
+SwitchDrawPolygons() 
+{ drawPolygons = !drawPolygons; }
 
 void
-SwitchDrawIntersectionPoints()  { drawIntersectionPoints = !drawIntersectionPoints; }
+SwitchDrawIntersectionPoints()  
+{ drawIntersectionPoints = !drawIntersectionPoints; }
 
 void
-SwitchDrawLinePoints() { drawLinePoints = !drawLinePoints; }
+SwitchDrawLinePoints() 
+{ drawLinePoints = !drawLinePoints; }
 
 void
-SwitchDrawLine() { drawLine = !drawLine; }
+SwitchDrawLine() 
+{ drawLine = !drawLine; }
 
 void
-updateCallback()
+UpdateCallback(float mousex, float mousey)
 {
+    AddPoints(mousex, mousey);
 
+    std::vector<coord2D> points = GetPoints();
+    if(points.size() > 1){
+        AddLines(points.at(0), points.at(1));
+        ClearPoints();
+    }
+
+    std::vector<Line> line = GetLines();
+    if(line.size() > 1){
+        CalculateIntersections(line);
+    }
 }
 
 void 
@@ -36,4 +52,12 @@ DrawAll()
     if(drawPolygons) DrawIntersectionPolygons();
 
     DrawPoints();
+}
+
+void
+ClearAll()
+{
+    ClearIntesections();
+    ClearLines();
+    ClearPoints();
 }

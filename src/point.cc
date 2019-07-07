@@ -25,10 +25,6 @@ void
 AddPoints(float posx, float posy)
 {
     points.push_back(coord2D{posx, posy});
-
-    if(points.size() > 1){
-        ClearPoints();
-    }
 }
 
 void
