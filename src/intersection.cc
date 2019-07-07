@@ -10,7 +10,6 @@
 
 std::vector<coord2D> intersections;
 
-
 void
 ClearIntesections()
 {
@@ -28,7 +27,6 @@ IntersectionCalculator(Line line1, Line line2)
 
     float ma = (y1b-y1a) / (x1b-x1a);
     float ca = y1a - (ma * x1a);
-    float da = sqrt(((x1b - x1a)*(x1b - x1a)) + ((y1b - y1a)*(y1b - y1a)));
 
     // Line B
     float x2a = line2.pos1.x;
@@ -38,7 +36,6 @@ IntersectionCalculator(Line line1, Line line2)
 
     float mb = (y2b-y2a) / (x2b-x2a);
     float cb = y2a - (mb * x2a);
-    float db = sqrt(((x2b - x2a)*(x2b - x2a)) + ((y2b - y2a)*(y2b - y2a)));
 
     // Output Intersection
     float xo = (cb - ca) / (ma - mb);
@@ -54,13 +51,10 @@ CalculateIntersections(std::vector<Line> lines)
 
     ClearIntesections();
     
-    for(int i=0; i<lines.size(); i++){
-        for(int j=0; j<lines.size(); j++){
+    for(uint8_t i=0; i<lines.size(); i++){
+        for(uint8_t j=0; j<lines.size(); j++){
             if(j == i) break;
             coord2D ip = IntersectionCalculator(lines.at(i), lines.at(j));
-
-            Line linesi = lines.at(i);
-            Line linesj = lines.at(j);
             
             intersections.push_back(coord2D{ip.x, ip.y});
         }
@@ -73,7 +67,7 @@ DrawIntersectionPoints()
     glPointSize(10);
     glColor4f(0, 1, 0, 1);
     glBegin(GL_POINTS);
-    for(int i=0; i<intersections.size(); i++){
+    for(uint8_t i=0; i<intersections.size(); i++){
         glVertex2f(intersections[i].x, intersections[i].y);
     }
     glEnd();
@@ -84,7 +78,7 @@ DrawIntersectionPolygons()
 {
     glColor4f(0, 1, 1, 0.255);
     glBegin(GL_TRIANGLE_FAN);
-    for(int i=0; i<intersections.size(); i++){
+    for(uint8_t i=0; i<intersections.size(); i++){
         glVertex2f(intersections[i].x, intersections[i].y);
     }
     glEnd();

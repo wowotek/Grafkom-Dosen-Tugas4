@@ -17,9 +17,10 @@ void
 RenderDisplay(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0.9, 0.9, 0.9, 1);
+    glClearColor(0.8, 0.8, 0.8, 1);
 
     DrawAll();
+    DrawScreenText();
     
     glutSwapBuffers();
 }
@@ -34,13 +35,13 @@ UpdateScreen(GLint time)
 void
 MouseEvent(int button, int state, int posx, int posy)
 {
-    if(state == GLUT_UP){
+    if(button == 0 && state == GLUT_UP){
         UpdateCallback(posx, posy);
     }
 }
 
 void
-KeyboardEvent(unsigned char key, int posx, int posy)
+KeyboardEvent(unsigned char key, int, int)
 {
     if(key == 'r'){
         ClearAll();

@@ -33,7 +33,7 @@ DrawPoints()
     glPointSize(10);
     glColor3f(255, 0, 0);
     glBegin(GL_POINTS);
-    for(int i=0; i<points.size(); i++){
+    for(uint8_t i=0; i<points.size(); i++){
         float x = (float) points.at(i).x;
         float y = (float) points.at(i).y;
         glVertex2f((float)(x), (float)(y));

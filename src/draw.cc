@@ -8,7 +8,7 @@
 bool drawLinePoints = true;
 bool drawLine = true;
 bool drawIntersectionPoints = true;
-bool drawPolygons = true;
+bool drawPolygons = false;
 
 void
 SwitchDrawPolygons() 

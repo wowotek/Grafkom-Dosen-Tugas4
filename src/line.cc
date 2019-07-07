@@ -41,7 +41,7 @@ DrawLines()
     glPointSize(10);
     glColor3f(0, 0, 0);
     glBegin(GL_LINES);
-    for(int i=0; i<lines.size(); i++){
+    for(uint8_t i=0; i<lines.size(); i++){
         float x1 = (float) lines.at(i).pos1.x;
         float y1 = (float) lines.at(i).pos1.y;
         float x2 = (float) lines.at(i).pos2.x;
@@ -58,7 +58,7 @@ DrawLinesPoints()
 {
     glColor3f(255, 0, 0);
     glBegin(GL_POINTS);
-    for(int i=0; i<lines.size(); i++){
+    for(uint8_t i=0; i<lines.size(); i++){
         float x1 = (float) lines.at(i).pos1.x;
         float y1 = (float) lines.at(i).pos1.y;
         float x2 = (float) lines.at(i).pos2.x;

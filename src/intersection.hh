@@ -3,6 +3,8 @@
 
 #include "common.hh"
 
+#include <vector>
+
 void ClearIntesections();
 coord2D IntersectionCalculator(Line, Line);
 void CalculateIntersections(std::vector<Line>);
